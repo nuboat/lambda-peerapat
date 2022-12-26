@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 
-public abstract class JdbcSQLBuilder {
+public class JdbcSQLBuilder {
 
     /**
      * package=cc.peerapat.accounts<br>

@@ -1,30 +1,27 @@
-package cc.peerapat.http;
+package cc.peerapat;
 
-import cc.peerapat.yoda.jdbc.JdbcSQLBuilder;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
-import lombok.val;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * cc.peerapat.http.JdbcSQLBuilderHTTP::handleRequest
+ * cc.peerapat.BahtTextHTTP::handleRequest
  */
-public class JdbcSQLBuilderHTTP implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
+public class BahtTextHTTP implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
 
     final Map<String, String> headers = new HashMap<>();
 
-    public JdbcSQLBuilderHTTP() {
+    public BahtTextHTTP() {
         headers.put("Content-Type", "text/plain");
     }
 
     @Override
     public APIGatewayV2HTTPResponse handleRequest(final APIGatewayV2HTTPEvent request, final Context context) {
-        val builder = new JdbcSQLBuilder();
-        return buildResponse(builder.toJdbcClass(request.getBody().split("\n")));
+        return buildResponse(BahtText.toText(request.getBody()));
     }
 
     private APIGatewayV2HTTPResponse buildResponse(final String body) {
