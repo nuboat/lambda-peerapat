@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cc.peerapat</groupId>
-    <artifactId>lambda-jdbctemplate</artifactId>
+    <artifactId>lambda-build-jdbctemplate</artifactId>
     <version>1.0</version>
 
     <properties>

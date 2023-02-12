@@ -23,11 +23,17 @@ public class JdbcSQLBuilderHTTP implements RequestHandler<APIGatewayV2HTTPEvent,
 
     @Override
     public APIGatewayV2HTTPResponse handleRequest(final APIGatewayV2HTTPEvent request, final Context context) {
+        val start = System.currentTimeMillis();
         val builder = new JdbcSQLBuilder();
-        return buildResponse(builder.toJdbcClass(request.getBody().split("\n")));
+        val response = builder.toJdbcClass(request.getBody().split("\n"));
+        val end = System.currentTimeMillis();
+
+        return buildResponse(response, (end-start));
     }
 
-    private APIGatewayV2HTTPResponse buildResponse(final String body) {
+    private APIGatewayV2HTTPResponse buildResponse(final String body, final Long processTime) {
+        headers.put("X-Processing-ms", processTime.toString());
+
         final APIGatewayV2HTTPResponse response = new APIGatewayV2HTTPResponse();
         response.setIsBase64Encoded(false);
         response.setStatusCode(200);

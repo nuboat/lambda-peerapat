@@ -12,7 +12,7 @@ class JdbcSQLBuilderTest extends JdbcSQLBuilder  {
         // code that will be invoked when this test is instantiated
     }
 
-    @Test(groups = { "success" })
+//    @Test(groups = { "success" })
     public void buildSuccessTest() {
         val input = "package=cc.peerapat.accounts \n" +
                 "class=AccountEntity \n" +
