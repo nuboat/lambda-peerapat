@@ -16,13 +16,14 @@ public class JdbcSQLBuilder implements TextHelper {
      * primary_keys=id,client_id<br>
      * columns=Long id, Long client_id, String username, String password_hash<br>
      */
-    public String toJdbcClass(final String[] args) throws NumberFormatException {
-        val packageId = args[0].trim().replace("package=", "");
-        val classname = args[1].trim().replace("class=", "");
-        val table = args[2].trim().replace("table=", "");
-        val primaryKeys = args[3].trim().replace("primary_keys=", "");
+    public String toJdbcClass(final String packageId
+            , final String classname
+            , final String table
+            , final String primaryKeys
+            , final String[] columns) throws NumberFormatException {
         val pks = primaryKeys.split(",");
-        val columns = args[4].trim().replace("columns=", "").split(",");
+
+        System.out.println(BASED);
 
         return BASED.replace("__packageId", packageId)
                 .replace("__classname", classname)
@@ -79,11 +80,11 @@ public class JdbcSQLBuilder implements TextHelper {
 
     String binding(final String col) {
         val arr = col.trim().split(" ");
-        if ("Integer".equals(arr[0])){
+        if ("Integer".equals(arr[0])) {
             return "           , rs.getInt(\"" + arr[arr.length - 1] + "\")";
         } else if ("LocalDateTime".contentEquals(arr[0])) {
             return "           , rs.getObject(\"" + arr[arr.length - 1] + "\", LocalDateTime.class)";
-        }else {
+        } else {
             return "           , rs.get" + arr[0] + "(\"" + arr[arr.length - 1] + "\")";
         }
     }
