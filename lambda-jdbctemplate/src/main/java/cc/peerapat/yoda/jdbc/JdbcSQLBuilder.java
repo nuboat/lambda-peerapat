@@ -23,7 +23,7 @@ public class JdbcSQLBuilder implements TextHelper {
             , final String[] columns) throws NumberFormatException {
         val pks = primaryKeys.split(",");
 
-        System.out.println(BASED);
+//        System.out.println(BASED);
 
         return BASED.replace("__packageId", packageId)
                 .replace("__classname", classname)
