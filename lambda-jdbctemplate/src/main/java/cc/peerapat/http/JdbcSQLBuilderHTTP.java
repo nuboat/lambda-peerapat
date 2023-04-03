@@ -33,25 +33,25 @@ public class JdbcSQLBuilderHTTP implements RequestHandler<APIGatewayV2HTTPEvent,
                     , parser.toColumns()
             );
             val end = System.currentTimeMillis();
-            return buildResponse(response, (end - start));
+            return buildResponse(200, response, (end - start));
         } catch(final Exception e) {
             val end = System.currentTimeMillis();
             val sw = new StringWriter();
             val pw = new PrintWriter(sw);
             e.printStackTrace(pw);
-            return buildResponse(sw.toString(), (end - start));
+            return buildResponse(500, sw.toString(), (end - start));
         }
 
     }
 
-    private APIGatewayV2HTTPResponse buildResponse(final String body, final Long processTime) {
+    private APIGatewayV2HTTPResponse buildResponse(final Integer code, final String body, final Long processTime) {
         final Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "text/plain");
         headers.put("X-Processing-ms", processTime.toString());
 
         final APIGatewayV2HTTPResponse response = new APIGatewayV2HTTPResponse();
         response.setIsBase64Encoded(false);
-        response.setStatusCode(200);
+        response.setStatusCode(code);
         response.setHeaders(headers);
         response.setBody(body);
 

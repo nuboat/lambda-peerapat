@@ -22,9 +22,9 @@ public class RecodeParser {
     }
 
     public String toPackageName() throws IllegalArgumentException {
-        val r = lines.stream().filter(line -> line.startsWith("package"))
+        val r = lines.stream().filter(line -> line.contains("@param package_name"))
                 .findFirst()
-                .map(line -> line.replace("package", "").replace(";", "").trim());
+                .map(line -> line.split("=")[1].trim());
 
         if (r.isEmpty())
             throw new IllegalArgumentException();
