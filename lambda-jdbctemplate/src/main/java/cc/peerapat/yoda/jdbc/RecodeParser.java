@@ -1,7 +1,6 @@
 package cc.peerapat.yoda.jdbc;
 
 import lombok.val;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -19,6 +18,17 @@ public class RecodeParser {
                 .map(String::trim)
                 .filter(line -> !line.isEmpty())
                 .collect(Collectors.toList());
+    }
+
+    public String toPackageEntity() throws IllegalArgumentException {
+        val r = lines.stream().filter(line -> line.startsWith("package"))
+                .findFirst()
+                .map(line -> line.replace("package", "").replace(";", "").trim());
+
+        if (r.isEmpty())
+            throw new IllegalArgumentException();
+        else
+            return r.get();
     }
 
     public String toPackageName() throws IllegalArgumentException {
@@ -92,7 +102,7 @@ public class RecodeParser {
         return cols.toArray(String[]::new);
     }
 
-    private boolean ignoreLine(final @NotNull String line) {
+    private boolean ignoreLine(final String line) {
         return line.isEmpty()
                 || line.startsWith(",")
                 || line.startsWith("@")

@@ -8,19 +8,21 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.Optional;
 
 @Slf4j
 public class JdbcSQLBuilderTest {
 
     @Test
     public void buildWithParsedData() {
-        val builder = new JdbcSQLBuilder();
-        val actual = builder.toJdbcClass("cc.peerapat.accounts"
-        , "AccountEntity"
-        , "accounts"
-        , "id,client_id"
-        , "Long id, Long clientId, String username, String passwordHash".split(","));
+        val builder = new JdbcSQLBuilder(Optional.empty());
+        val actual = builder.toJdbcClass(
+                "cc.peerapat.repo.generated"
+                , "cc.peerapat.entites"
+                , "AccountEntity"
+                , "accounts"
+                , "id,client_id"
+                , "Long id, Long clientId, String username, String passwordHash".split(","));
 
         System.out.println(actual);
     }
@@ -31,9 +33,10 @@ public class JdbcSQLBuilderTest {
                 , StandardCharsets.UTF_8);
 
         val parser = new RecodeParser(input);
-        val builder = new JdbcSQLBuilder();
+        val builder = new JdbcSQLBuilder(Optional.empty());
 
-        val response = builder.toJdbcClass(parser.toPackageName()
+        val response = builder.toJdbcClass(parser.toPackageEntity()
+                , parser.toPackageName()
                 , parser.toClassName()
                 , parser.toTableName()
                 , parser.toPrimaryKeys()

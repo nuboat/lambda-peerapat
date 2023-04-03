@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * cc.peerapat.http.JdbcSQLBuilderHTTP::handleRequest
@@ -20,28 +21,34 @@ public class JdbcSQLBuilderHTTP implements RequestHandler<APIGatewayV2HTTPEvent,
 
     @Override
     public APIGatewayV2HTTPResponse handleRequest(final APIGatewayV2HTTPEvent request, final Context context) {
+        val log = context.getLogger();
         val start = System.currentTimeMillis();
 
         try {
             val parser = new RecodeParser(request.getBody());
-            val builder = new JdbcSQLBuilder();
+            val builder = new JdbcSQLBuilder(Optional.of(log));
 
             val response = builder.toJdbcClass(parser.toPackageName()
+                    , parser.toPackageEntity()
                     , parser.toClassName()
                     , parser.toTableName()
                     , parser.toPrimaryKeys()
                     , parser.toColumns()
             );
             val end = System.currentTimeMillis();
+
             return buildResponse(200, response, (end - start));
-        } catch(final Exception e) {
+
+        } catch (final Exception e) {
             val end = System.currentTimeMillis();
             val sw = new StringWriter();
             val pw = new PrintWriter(sw);
             e.printStackTrace(pw);
-            return buildResponse(500, sw.toString(), (end - start));
-        }
 
+            return buildResponse(500, "Error: " + e.getMessage() + "\n"
+                    + " Cause:" + e.getCause() + "\n"
+                    + sw, (end - start));
+        }
     }
 
     private APIGatewayV2HTTPResponse buildResponse(final Integer code, final String body, final Long processTime) {
@@ -49,7 +56,7 @@ public class JdbcSQLBuilderHTTP implements RequestHandler<APIGatewayV2HTTPEvent,
         headers.put("Content-Type", "text/plain");
         headers.put("X-Processing-ms", processTime.toString());
 
-        final APIGatewayV2HTTPResponse response = new APIGatewayV2HTTPResponse();
+        val response = new APIGatewayV2HTTPResponse();
         response.setIsBase64Encoded(false);
         response.setStatusCode(code);
         response.setHeaders(headers);
@@ -57,6 +64,5 @@ public class JdbcSQLBuilderHTTP implements RequestHandler<APIGatewayV2HTTPEvent,
 
         return response;
     }
-
 
 }
