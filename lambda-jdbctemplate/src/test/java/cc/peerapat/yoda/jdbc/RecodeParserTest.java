@@ -20,7 +20,7 @@ public class RecodeParserTest {
 
         val parser = new RecodeParser(input);
 
-        assert "id,client_id".equals(parser.toPrimaryKeys());
+        assert "id, client_id".equals(parser.toPrimaryKeys());
 
         Arrays.stream(parser.toColumns()).forEach(l -> System.out.println("line: " + l));
     }

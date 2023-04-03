@@ -39,6 +39,8 @@ public class JdbcSQLBuilder implements TextHelper {
             , final String[] columns) throws NumberFormatException {
 
         val pks = primaryKeys.split(",");
+        val pkCamelSet = Arrays.stream(pks).map(pk -> snakeToCamel(pk.trim()))
+                .collect(Collectors.joining(", "));
         log.ifPresent(l -> l.log(Arrays.toString(pks)));
 
         return TEMPLATE
@@ -51,7 +53,7 @@ public class JdbcSQLBuilder implements TextHelper {
                 .replace("__insertParams", insertParams(columns))
                 .replace("__pksCondition", pksCondition(pks))
                 .replace("__pksParameters", pksParams(columns, pks))
-                .replace("__primaryKeys", primaryKeys)
+                .replace("__primaryKeys", pkCamelSet)
                 .replace("__bindings", bindings(columns));
     }
 
@@ -59,7 +61,7 @@ public class JdbcSQLBuilder implements TextHelper {
         val colsJoin = Arrays.stream(cols).map(col -> camelToSnake(col.trim().split(" ")[1]))
                 .collect(Collectors.joining(", "));
         val paramsJoin = Arrays.stream(cols).map(col -> "?")
-                .collect(Collectors.joining(","));
+                .collect(Collectors.joining(", "));
 
         return "INSERT INTO " + table + "(" + colsJoin + ") VALUES (" + paramsJoin + ")";
     }
@@ -105,17 +107,17 @@ public class JdbcSQLBuilder implements TextHelper {
         if (c.isEmpty())
             throw new IllegalArgumentException();
 
-        return c.get()[0] + " " + pk;
+        return "final " + c.get()[0] + " " + snakeToCamel(pk);
     }
 
     private String binding(final String col) {
         val arr = col.trim().split(" ");
         if ("Integer".equals(arr[0])) {
-            return SPACE11 + ", rs.getInt(\"" + arr[arr.length - 1] + "\")";
+            return SPACE11 + ", rs.getInt(\"" + camelToSnake(arr[arr.length - 1]) + "\")";
         } else if ("LocalDateTime".contentEquals(arr[0])) {
-            return SPACE11 + ", rs.getObject(\"" + arr[arr.length - 1] + "\", LocalDateTime.class)";
+            return SPACE11 + ", rs.getObject(\"" + camelToSnake(arr[arr.length - 1]) + "\", LocalDateTime.class)";
         } else {
-            return SPACE11 + ", rs.get" + arr[0] + "(\"" + arr[arr.length - 1] + "\")";
+            return SPACE11 + ", rs.get" + arr[0] + "(\"" + camelToSnake(arr[arr.length - 1]) + "\")";
         }
     }
 

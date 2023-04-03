@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  * <a href="https://wkorando.github.io/sip-of-java/015.html">Record and JPA</a>
  * @param package_name = cc.peerapat.repo.generated
  * @param table_name = accounts
- * @param primary_keys = id,client_id
+ * @param primary_keys = id, client_id
  */
 @Builder
 public record AccountEntity(
