@@ -23,8 +23,7 @@ public abstract class __tableGenerated {
 
    protected String DELETE = "__deleteStatement";
    public void delete(__pksParameters) {
-       jdbc().update(DELETE
-           , __primaryKeys);
+       jdbc().update(DELETE, __primaryKeys);
    }
 
    protected String Q_BY_PKS = "SELECT * FROM accounts WHERE __pksCondition";

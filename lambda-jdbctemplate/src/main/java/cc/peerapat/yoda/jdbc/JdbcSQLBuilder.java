@@ -52,8 +52,7 @@ public class JdbcSQLBuilder implements TextHelper {
                 .replace("__pksCondition", pksCondition(pks))
                 .replace("__pksParameters", pksParams(columns, pks))
                 .replace("__primaryKeys", primaryKeys)
-                .replace("__bindings", bindings(columns))
-                ;
+                .replace("__bindings", bindings(columns));
     }
 
     String buildInsertStatement(final String table, final String[] cols) {
@@ -82,13 +81,13 @@ public class JdbcSQLBuilder implements TextHelper {
     String pksParams(final String[] cols, final String[] pks) {
         return Arrays.stream(pks)
                 .map(pk -> pkParameter(cols, pk.trim()))
-                .collect(Collectors.joining("\n" + SPACE11 + ", "));
+                .collect(Collectors.joining(", "));
     }
 
     String bindings(final String[] cols) {
         return Arrays.stream(cols).map(this::binding)
                 .collect(Collectors.joining(" \n"))
-                .replaceFirst(SPACE11, "");
+                .replaceFirst(SPACE11 + ", ", "");
     }
 
     private static String template() {
@@ -112,7 +111,7 @@ public class JdbcSQLBuilder implements TextHelper {
     private String binding(final String col) {
         val arr = col.trim().split(" ");
         if ("Integer".equals(arr[0])) {
-            return ", rs.getInt(\"" + arr[arr.length - 1] + "\")";
+            return SPACE11 + ", rs.getInt(\"" + arr[arr.length - 1] + "\")";
         } else if ("LocalDateTime".contentEquals(arr[0])) {
             return SPACE11 + ", rs.getObject(\"" + arr[arr.length - 1] + "\", LocalDateTime.class)";
         } else {
