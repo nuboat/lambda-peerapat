@@ -21,9 +21,8 @@ public class JdbcSQLBuilder implements TextHelper {
             , final String table
             , final String primaryKeys
             , final String[] columns) throws NumberFormatException {
-        val pks = primaryKeys.split(",");
 
-//        System.out.println(BASED);
+        val pks = primaryKeys.split(",");
 
         return BASED.replace("__packageId", packageId)
                 .replace("__classname", classname)
@@ -56,11 +55,6 @@ public class JdbcSQLBuilder implements TextHelper {
                 .collect(Collectors.joining(" AND "));
     }
 
-    String pkParameter(final String[] cols, final String pk) {
-        val colMap = Arrays.stream(cols).map(col -> col.trim().split(" "));
-        return colMap.filter(col -> pk.equals(col[1])).findFirst().get()[0] + " " + pk;
-    }
-
     String insertParams(final String[] cols) {
         return Arrays.stream(cols).map(col -> "e." + snakeToCamel(col.trim().split(" ")[1]) + "()")
                 .collect(Collectors.joining("\n           , "));
@@ -78,7 +72,12 @@ public class JdbcSQLBuilder implements TextHelper {
                 .replaceFirst("           , ", "");
     }
 
-    String binding(final String col) {
+    private String pkParameter(final String[] cols, final String pk) {
+        val colMap = Arrays.stream(cols).map(col -> col.trim().split(" "));
+        return colMap.filter(col -> pk.equals(camelToSnake(col[1]))).findFirst().get()[0] + " " + pk;
+    }
+
+    private String binding(final String col) {
         val arr = col.trim().split(" ");
         if ("Integer".equals(arr[0])) {
             return "           , rs.getInt(\"" + arr[arr.length - 1] + "\")";
