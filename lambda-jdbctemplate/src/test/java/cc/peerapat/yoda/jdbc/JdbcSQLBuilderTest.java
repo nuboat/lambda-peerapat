@@ -19,6 +19,7 @@ public class JdbcSQLBuilderTest {
         val actual = builder.toJdbcClass(
                 "cc.peerapat.repo.generated"
                 , "cc.peerapat.entites"
+                , "AccountGenerated"
                 , "AccountEntity"
                 , "accounts"
                 , "id,client_id"
@@ -35,9 +36,11 @@ public class JdbcSQLBuilderTest {
         val parser = new RecodeParser(input);
         val builder = new JdbcSQLBuilder(Optional.empty());
 
-        val response = builder.toJdbcClass(parser.toPackageEntity()
+        val response = builder.toJdbcClass(
+                parser.toPackageEntity()
                 , parser.toPackageName()
                 , parser.toClassName()
+                , parser.toEntityName()
                 , parser.toTableName()
                 , parser.toPrimaryKeys()
                 , parser.toColumns()

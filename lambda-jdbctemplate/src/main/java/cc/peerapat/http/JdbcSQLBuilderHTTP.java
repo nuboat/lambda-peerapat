@@ -28,9 +28,11 @@ public class JdbcSQLBuilderHTTP implements RequestHandler<APIGatewayV2HTTPEvent,
             val parser = new RecodeParser(request.getBody());
             val builder = new JdbcSQLBuilder(Optional.of(log));
 
-            val response = builder.toJdbcClass(parser.toPackageName()
+            val response = builder.toJdbcClass(
+                    parser.toPackageName()
                     , parser.toPackageEntity()
                     , parser.toClassName()
+                    , parser.toEntityName()
                     , parser.toTableName()
                     , parser.toPrimaryKeys()
                     , parser.toColumns()

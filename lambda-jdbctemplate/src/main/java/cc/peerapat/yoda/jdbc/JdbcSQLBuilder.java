@@ -33,7 +33,8 @@ public class JdbcSQLBuilder implements TextHelper {
      */
     public String toJdbcClass(final String packageId
             , final String packageEntity
-            , final String classname
+            , final String className
+            , final String entityName
             , final String table
             , final String primaryKeys
             , final String[] columns) throws NumberFormatException {
@@ -46,8 +47,8 @@ public class JdbcSQLBuilder implements TextHelper {
         return TEMPLATE
                 .replace("__packageId", packageId)
                 .replace("__packageEntity", packageEntity)
-                .replace("__classname", classname)
-                .replace("__table", table)
+                .replace("__className", className)
+                .replace("__entityName", entityName)
                 .replace("__insertStatement", buildInsertStatement(table, columns))
                 .replace("__deleteStatement", buildDeleteStatement(table, pks))
                 .replace("__insertParams", insertParams(columns))

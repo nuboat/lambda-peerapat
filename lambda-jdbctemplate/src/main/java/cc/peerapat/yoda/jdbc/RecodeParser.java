@@ -32,7 +32,7 @@ public class RecodeParser {
     }
 
     public String toPackageName() throws IllegalArgumentException {
-        val r = lines.stream().filter(line -> line.contains("@param package_name"))
+        val r = lines.stream().filter(line -> line.contains("* package_name"))
                 .findFirst()
                 .map(line -> line.split("=")[1].trim());
 
@@ -42,7 +42,7 @@ public class RecodeParser {
             return r.get();
     }
 
-    public String toClassName() throws IllegalArgumentException {
+    public String toEntityName() throws IllegalArgumentException {
         val r = lines.stream().filter(line -> line.startsWith("public record"))
                 .findFirst()
                 .map(line -> line.replace("public record", "").split("\\(")[0].trim());
@@ -53,8 +53,19 @@ public class RecodeParser {
             return r.get();
     }
 
+    public String toClassName() throws IllegalArgumentException {
+        val r = lines.stream().filter(line -> line.contains("* class_name"))
+                .findFirst()
+                .map(line -> line.split("=")[1].trim());
+
+        if (r.isEmpty())
+            throw new IllegalArgumentException();
+        else
+            return r.get();
+    }
+
     public String toTableName() throws IllegalArgumentException {
-        val r = lines.stream().filter(line -> line.contains("@param table_name"))
+        val r = lines.stream().filter(line -> line.contains("* table_name"))
                 .findFirst()
                 .map(line -> line.split("=")[1].trim());
 
@@ -65,7 +76,7 @@ public class RecodeParser {
     }
 
     public String toPrimaryKeys() throws IllegalArgumentException {
-        val r = lines.stream().filter(line -> line.contains("@param primary_keys"))
+        val r = lines.stream().filter(line -> line.contains("* primary_keys"))
                 .findFirst()
                 .map(line -> line.split("=")[1].trim());
 

@@ -1,7 +1,7 @@
 package __packageId;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import __packageEntity.__classname;
+import __packageEntity.__entityname;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,12 +11,12 @@ import java.util.Optional;
 /**
  * Auto Generated
  */
-public abstract class __tableGenerated {
+public abstract class __className {
 
    protected abstract JdbcTemplate jdbc();
 
    protected String INSERT = "__insertStatement";
-   public void insert(final __classname e) {
+   public void insert(final __entityName e) {
        jdbc().update(INSERT
            , __insertParams);
    }
@@ -27,14 +27,14 @@ public abstract class __tableGenerated {
    }
 
    protected String Q_BY_PKS = "SELECT * FROM accounts WHERE __pksCondition";
-   public Optional<__classname> find(__pksParameters) {
+   public Optional<__entityName> find(__pksParameters) {
        return Optional.ofNullable(jdbc().queryForObject(Q_BY_PKS
            , (rs, rowNum) -> parse(rs)
            , __primaryKeys));
    }
 
-   protected __classname parse(final ResultSet rs) throws SQLException {
-       return new __classname(
+   protected __entityName parse(final ResultSet rs) throws SQLException {
+       return new __entityName(
            __bindings
        );
    }
