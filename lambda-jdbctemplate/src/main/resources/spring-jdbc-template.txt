@@ -1,7 +1,7 @@
 package __packageId;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import __packageEntity.__entityname;
+import __packageEntity.__entityName;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
