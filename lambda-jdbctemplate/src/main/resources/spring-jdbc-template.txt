@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
- * Auto Generated
+ *  Design by Norbor น. RCA, Assembole on Norbor Account
  */
 public abstract class __className {
 
@@ -21,16 +21,16 @@ public abstract class __className {
            , __insertParams);
    }
 
-   protected String DELETE = "__deleteStatement";
+   private static final String DELETE = "__deleteStatement";
    public void delete(__pksParameters) {
        jdbc().update(DELETE, __primaryKeys);
    }
 
-   protected String Q_BY_PKS = "SELECT * FROM accounts WHERE __pksCondition";
-   public Optional<__entityName> find(__pksParameters) {
-       return Optional.ofNullable(jdbc().queryForObject(Q_BY_PKS
+   private static final String Q_BY_PKS = "SELECT * FROM __table WHERE __pksCondition";
+   public Optional<__className> find(__pksParameters) {
+       return jdbc().query(Q_BY_PKS
            , (rs, rowNum) -> parse(rs)
-           , __primaryKeys));
+           , __primaryKeys).stream().findFirst();
    }
 
    protected __entityName parse(final ResultSet rs) throws SQLException {

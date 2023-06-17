@@ -15,4 +15,8 @@ public interface TextHelper {
                 .toLowerCase();
     }
 
+    default String f(final String txt, final Object... args) {
+        return String.format(txt, args);
+    }
+
 }
