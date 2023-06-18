@@ -14,10 +14,10 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 /**
- * <a href="https://wkorando.github.io/sip-of-java/015.html">Record and JPA</a>
- * @param package_name = cc.peerapat.repo.generated
- * @param table_name = accounts
- * @param primary_keys = id, client_id
+ * package_name=cc.peerapat.repos.generated
+ * class_name=AccountGen
+ * table_name=accounts
+ * primary_keys=id, client_id
  */
 @Builder
 public record AccountEntity(
