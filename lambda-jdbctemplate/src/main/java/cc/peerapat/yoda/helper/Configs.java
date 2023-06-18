@@ -33,7 +33,8 @@ public interface Configs {
         }
         return new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))
                 .lines()
-                .toString();
+                .findFirst()
+                .get();
     }
 
 }
