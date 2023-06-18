@@ -21,6 +21,7 @@ public class JdbcSQLBuilderTest {
                 , "cc.peerapat.entites"
                 , "AccountGenerated"
                 , "AccountEntity"
+                , "accounts"
                 , "id, client_id"
                 , "Long id, Long clientId, String username, String passwordHash".split(","));
 
@@ -38,6 +39,7 @@ public class JdbcSQLBuilderTest {
         val response = builder.toJdbcClass(
                 parser.toPackageEntity()
                 , parser.toPackageName()
+                , parser.toClassName()
                 , parser.toEntityName()
                 , parser.toTableName()
                 , parser.toPrimaryKeys()

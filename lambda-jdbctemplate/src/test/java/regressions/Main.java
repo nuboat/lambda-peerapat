@@ -1,6 +1,5 @@
 package regressions;
 
-import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.io.IOException;
@@ -12,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
 
-@Slf4j
 public class Main {
 
     private static final String PATH = "src/test/resources/";
@@ -40,15 +38,18 @@ public class Main {
             val response = httpClient.send(request,
                     HttpResponse.BodyHandlers.ofString());
 
-            log.info("Status code: " + response.statusCode());
-            log.info("Headers: " + response.headers().allValues("content-type"));
+            System.out.println("Status code: " + response.statusCode());
+            System.out.println(("Headers: " + response.headers().allValues("content-type")));
+            System.out.println(("Headers: " + response.headers().allValues("X-Processing-ms")));
+            System.out.println(("Headers: " + response.headers().allValues("X-Build-Id")));
+            System.out.println(response.body());
 
             if (response.statusCode() == 200)
                 Files.write(Paths.get(TARGET + output + ".java"), response.body().getBytes());
             else
-                log.error("Build {} got Error: {}", output, response.body());
+                System.out.println(response.body());
         } catch (IOException | InterruptedException e) {
-            log.error("Build {} got Error: {}", output, e.getMessage());
+            e.printStackTrace();
         }
     }
 }

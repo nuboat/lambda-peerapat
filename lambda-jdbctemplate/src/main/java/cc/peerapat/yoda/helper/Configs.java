@@ -11,8 +11,10 @@ import java.util.stream.Collectors;
 public interface Configs {
 
     String SPACE11 = "           ";
+    String BUILD = loadBuild();
+    String TEMPLATE = loadTemplate();
 
-    static String loadTemplate() {
+    private static String loadTemplate() {
         val is = JdbcSQLBuilder.class.getClassLoader()
                 .getResourceAsStream("spring-jdbc-template.txt");
         if (is == null) {
@@ -23,7 +25,7 @@ public interface Configs {
                 .collect(Collectors.joining("\n"));
     }
 
-    static String loadBuild() {
+    private static String loadBuild() {
         val is = JdbcSQLBuilder.class.getClassLoader()
                 .getResourceAsStream("build.properties");
         if (is == null) {

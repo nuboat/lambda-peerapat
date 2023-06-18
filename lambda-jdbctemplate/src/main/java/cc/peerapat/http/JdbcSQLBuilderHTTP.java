@@ -35,6 +35,7 @@ public class JdbcSQLBuilderHTTP implements Configs
             val response = builder.toJdbcClass(
                     parser.toPackageName()
                     , parser.toPackageEntity()
+                    , parser.toClassName()
                     , parser.toEntityName()
                     , parser.toTableName()
                     , parser.toPrimaryKeys()
@@ -63,7 +64,7 @@ public class JdbcSQLBuilderHTTP implements Configs
         val headers = new HashMap<String, String>();
         headers.put("Content-Type", "text/plain");
         headers.put("X-Processing-ms", processTime.toString());
-        headers.put("X-Build-Id", Configs.loadBuild());
+        headers.put("X-Build-Id", Configs.BUILD);
 
         val response = new APIGatewayV2HTTPResponse();
         response.setIsBase64Encoded(false);

@@ -42,6 +42,17 @@ public class RecodeParser {
             return r.get();
     }
 
+    public String toClassName() throws IllegalArgumentException {
+        val r = lines.stream().filter(line -> line.contains("* class_name"))
+                .findFirst()
+                .map(line -> line.split("=")[1].trim());
+
+        if (r.isEmpty())
+            throw new IllegalArgumentException();
+        else
+            return r.get();
+    }
+
     public String toEntityName() throws IllegalArgumentException {
         val r = lines.stream().filter(line -> line.startsWith("public record"))
                 .findFirst()

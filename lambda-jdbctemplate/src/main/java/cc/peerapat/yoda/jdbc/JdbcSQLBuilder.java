@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 public class JdbcSQLBuilder implements Configs, TextHelper {
 
     private final LambdaLogger log;
-    private static final String TEMPLATE = Configs.loadTemplate();
 
     public JdbcSQLBuilder(final LambdaLogger log) {
         this.log = log;
@@ -19,6 +18,7 @@ public class JdbcSQLBuilder implements Configs, TextHelper {
 
     public String toJdbcClass(final String packageId
             , final String packageEntity
+            , final String className
             , final String entityName
             , final String table
             , final String primaryKeys
@@ -32,6 +32,7 @@ public class JdbcSQLBuilder implements Configs, TextHelper {
         return TEMPLATE
                 .replace("__packageId", packageId)
                 .replace("__packageEntity", packageEntity)
+                .replace("__className", className)
                 .replace("__entityName", entityName)
                 .replace("__table", table)
                 .replace("__insertStatement", buildInsertStatement(table, columns))
