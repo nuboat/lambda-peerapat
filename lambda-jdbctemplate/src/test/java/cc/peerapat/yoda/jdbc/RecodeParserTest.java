@@ -15,7 +15,7 @@ public class RecodeParserTest {
 
     @Test
     public void extractRecordSuccessTest() throws IOException {
-        val input = Files.readString(Paths.get("src/test/resources/AccountEntity.java.txt")
+        val input = Files.readString(Paths.get("src/test/resources/AccountEntity.java")
                 , StandardCharsets.UTF_8);
 
         val parser = new RecodeParser(input);

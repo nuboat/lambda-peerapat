@@ -14,10 +14,10 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 /**
- * package_name=cc.peerapat.repos.generated
- * class_name=AccountGen
- * table_name=accounts
- * primary_keys=id, client_id
+ * package_name = cc.peerapat.repo.generated
+ * class_name = AccountGen
+ * table_name = accounts
+ * primary_keys = id, client_id
  */
 @Builder
 public record AccountEntity(
